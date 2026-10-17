@@ -3,9 +3,9 @@
     <div class="container py-8">
       <div class="admin-header">
         <div>
-          <span class="badge">Panel Administrativo</span>
-          <h1 class="page-title">Gestión de Prospectos y Cotizaciones</h1>
-          <p class="page-subtitle">Visualización y control del pipeline de solicitudes de clientes de Autemia.</p>
+          <span class="badge">Uso Interno del Equipo</span>
+          <h1 class="page-title">Solicitudes de Clientes</h1>
+          <p class="page-subtitle">Revisa los negocios que han pedido cotización o informes en la página.</p>
         </div>
         <div class="header-actions">
           <button @click="refreshLeads" class="btn-secondary btn-sm">Actualizar Lista</button>
@@ -16,19 +16,19 @@
       <div class="stats-grid">
         <div class="stat-card card-glass">
           <span class="stat-num">{{ leads.length }}</span>
-          <span class="stat-label">Total Solicitudes</span>
+          <span class="stat-label">Total de Solicitudes</span>
         </div>
         <div class="stat-card card-glass">
           <span class="stat-num text-amber">{{ pendingCount }}</span>
-          <span class="stat-label">Pendientes</span>
+          <span class="stat-label">Por Atender</span>
         </div>
         <div class="stat-card card-glass">
           <span class="stat-num text-blue">{{ analyzingCount }}</span>
-          <span class="stat-label">En Análisis</span>
+          <span class="stat-label">En Revisión</span>
         </div>
         <div class="stat-card card-glass">
           <span class="stat-num text-green">{{ quotedCount }}</span>
-          <span class="stat-label">Cotizados</span>
+          <span class="stat-label">Propuesta Enviada</span>
         </div>
       </div>
 
@@ -38,15 +38,15 @@
           <input 
             type="text" 
             v-model="searchQuery" 
-            placeholder="Buscar por cliente, empresa o folio..." 
+            placeholder="Buscar por cliente, negocio o folio..." 
             class="form-input search-input"
           />
           <select v-model="filterStatus" class="form-input filter-select">
             <option value="TODOS">Todos los estados</option>
-            <option value="Pendiente">Pendiente</option>
-            <option value="En Análisis">En Análisis</option>
-            <option value="Cotizado">Cotizado</option>
-            <option value="Aprobado">Aprobado</option>
+            <option value="Pendiente">Por Atender</option>
+            <option value="En Análisis">En Revisión</option>
+            <option value="Cotizado">Propuesta Enviada</option>
+            <option value="Aprobado">Aprobado / Cliente Activo</option>
           </select>
         </div>
 
@@ -55,9 +55,9 @@
             <thead>
               <tr>
                 <th>Folio</th>
-                <th>Cliente / Empresa</th>
-                <th>Servicio de Interés</th>
-                <th>Plataformas</th>
+                <th>Cliente / Negocio</th>
+                <th>¿Qué le interesa?</th>
+                <th>Herramientas</th>
                 <th>Estimado</th>
                 <th>Estado</th>
                 <th>Acciones</th>
@@ -85,7 +85,7 @@
                   </span>
                 </td>
                 <td>
-                  <button @click="openModal(lead)" class="btn-secondary btn-xs">Ver Detalle</button>
+                  <button @click="openModal(lead)" class="btn-secondary btn-xs">Ver Datos</button>
                 </td>
               </tr>
             </tbody>
@@ -97,24 +97,24 @@
       <div v-if="selectedLead" class="modal-backdrop" @click.self="selectedLead = null">
         <div class="modal-card card-glass">
           <div class="modal-header">
-            <h3>Detalle de Solicitud: {{ selectedLead.folio }}</h3>
+            <h3>Detalle del Cliente: {{ selectedLead.folio }}</h3>
             <button @click="selectedLead = null" class="close-btn">&times;</button>
           </div>
           <div class="modal-body">
             <div class="detail-row">
-              <span class="d-label">Cliente:</span>
-              <span class="d-val">{{ selectedLead.name }} ({{ selectedLead.email }} / {{ selectedLead.phone }})</span>
+              <span class="d-label">Contacto:</span>
+              <span class="d-val">{{ selectedLead.name }} — Tel / WhatsApp: <strong>{{ selectedLead.phone }}</strong> ({{ selectedLead.email }})</span>
             </div>
             <div class="detail-row">
-              <span class="d-label">Empresa:</span>
-              <span class="d-val">{{ selectedLead.company || 'No especificada' }}</span>
+              <span class="d-label">Negocio o Local:</span>
+              <span class="d-val">{{ selectedLead.company || 'No especificado' }}</span>
             </div>
             <div class="detail-row">
-              <span class="d-label">Servicio:</span>
+              <span class="d-label">Solución que le interesa:</span>
               <span class="d-val">{{ selectedLead.service }}</span>
             </div>
             <div class="detail-row">
-              <span class="d-label">Plataformas:</span>
+              <span class="d-label">Herramientas que usa:</span>
               <span class="d-val">{{ selectedLead.platforms.join(', ') }}</span>
             </div>
             <div class="detail-row">
@@ -122,17 +122,17 @@
               <span class="d-val text-blue font-bold">${{ selectedLead.price.toLocaleString() }} MXN</span>
             </div>
             <div class="detail-row">
-              <span class="d-label">Requerimientos:</span>
-              <p class="d-text">{{ selectedLead.details || 'Sin especificaciones adicionales.' }}</p>
+              <span class="d-label">Lo que platicó sobre su problema:</span>
+              <p class="d-text">{{ selectedLead.details || 'Sin notas adicionales.' }}</p>
             </div>
             
             <div class="status-edit">
-              <label>Cambiar Estado de Seguimiento:</label>
+              <label>Cambiar Estado de Atención:</label>
               <select v-model="selectedLead.status" class="form-input">
-                <option value="Pendiente">Pendiente</option>
-                <option value="En Análisis">En Análisis</option>
-                <option value="Cotizado">Cotizado</option>
-                <option value="Aprobado">Aprobado</option>
+                <option value="Pendiente">Por Atender</option>
+                <option value="En Análisis">En Revisión</option>
+                <option value="Cotizado">Propuesta Enviada</option>
+                <option value="Aprobado">Aprobado / Cliente Activo</option>
                 <option value="Descartado">Descartado</option>
               </select>
             </div>
@@ -160,11 +160,11 @@ const leads = ref([
     company: 'Distribuidora Huasteca',
     email: 'roberto@huastecadist.com',
     phone: '481 102 3344',
-    service: 'Chatbot Inteligente con IA',
-    platforms: ['WhatsApp', 'Google Sheets'],
-    price: 3850,
+    service: 'Asistente para atender en WhatsApp',
+    platforms: ['WhatsApp', 'Excel o Hojas de Cálculo'],
+    price: 3600,
     status: 'Pendiente',
-    details: 'Queremos automatizar el catálogo de productos y toma de pedidos por WhatsApp con respuesta rápida.'
+    details: 'Queremos automatizar el catálogo de productos y toma de pedidos por WhatsApp con respuesta rápida a clientes.'
   },
   {
     folio: 'AUT-652190',
@@ -172,11 +172,11 @@ const leads = ref([
     company: 'Clínica Dental San Ángel',
     email: 'contacto@dentalsanangel.com',
     phone: '481 998 7766',
-    service: 'Automatización de Flujos (n8n)',
-    platforms: ['WhatsApp', 'Gmail / Outlook', 'CRM'],
-    price: 5200,
+    service: 'Conectar mis programas para ahorrar tiempo',
+    platforms: ['WhatsApp', 'Correo Electrónico', 'Excel'],
+    price: 4800,
     status: 'En Análisis',
-    details: 'Sincronizar citas agendadas con Google Calendar y enviar recordatorio automático 24 hrs antes.'
+    details: 'Guardar citas de pacientes y enviar recordatorio automático por WhatsApp 24 horas antes.'
   },
   {
     folio: 'AUT-194827',
@@ -184,11 +184,11 @@ const leads = ref([
     company: 'Agencia de Viajes Valles Tour',
     email: 'fernando@vallestour.mx',
     phone: '481 554 2211',
-    service: 'Integración Avanzada de APIs',
-    platforms: ['MySQL / PostgreSQL', 'Pasarela de Pagos', 'WhatsApp'],
-    price: 7000,
+    service: 'Solución completa a la medida',
+    platforms: ['Cobros con Tarjeta', 'WhatsApp', 'Excel'],
+    price: 6500,
     status: 'Cotizado',
-    details: 'Conectar pasarela Stripe con nuestro sistema web propio para notificar compras automáticamente.'
+    details: 'Recibir confirmaciones de pago con tarjeta y enviar pase de abordar por WhatsApp de inmediato.'
   }
 ])
 
@@ -219,7 +219,7 @@ function openModal(lead) {
 }
 
 function refreshLeads() {
-  alert('Lista de prospectos actualizada desde la base de datos MySQL.')
+  alert('Lista de solicitudes actualizada con éxito.')
 }
 </script>
 

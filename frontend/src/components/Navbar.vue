@@ -14,17 +14,17 @@
 
       <nav class="nav-links">
         <router-link to="/" class="nav-item">Inicio</router-link>
-        <router-link to="/servicios" class="nav-item">Servicios</router-link>
-        <router-link to="/cotizador" class="nav-item">Cotizador</router-link>
-        <router-link to="/nosotros" class="nav-item">Nosotros</router-link>
+        <router-link to="/servicios" class="nav-item">¿Qué hacemos?</router-link>
+        <router-link to="/cotizador" class="nav-item">Calculadora de Costos</router-link>
+        <router-link to="/nosotros" class="nav-item">Quiénes Somos</router-link>
         <router-link to="/admin" class="nav-item nav-admin">
-          <span class="admin-badge">Staff</span>
+          <span class="admin-badge">Área de Equipo</span>
         </router-link>
       </nav>
 
       <div class="nav-actions">
         <router-link to="/cotizador" class="btn-primary btn-sm">
-          Cotizar Solución
+          Cotizar Gratis
         </router-link>
       </div>
     </div>

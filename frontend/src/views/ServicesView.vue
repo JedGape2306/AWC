@@ -2,93 +2,99 @@
   <div class="services-page">
     <div class="container py-12">
       <div class="page-header text-center">
-        <span class="badge">Catálogo Tecnológico</span>
-        <h1 class="page-title">Soluciones Especializadas de <span class="text-gradient">Autemia</span></h1>
-        <p class="page-subtitle">Diseñadas para eliminar la intervención manual en tareas críticas y escalar la atención a clientes.</p>
+        <span class="badge">¿Qué hacemos por tu negocio?</span>
+        <h1 class="page-title">Soluciones diseñadas para <span class="text-gradient">facilitarte la vida</span></h1>
+        <p class="page-subtitle">Nos encargamos de que la tecnología trabaje para ti, no que tú tengas que complicarte con ella.</p>
       </div>
 
       <div class="catalog-stack">
         <!-- Service 1: Chatbots -->
         <div class="catalog-card card-glass">
           <div class="catalog-header">
-            <span class="catalog-badge">Atención Continua</span>
-            <h2>Chatbots Inteligentes de Atención al Cliente</h2>
+            <span class="catalog-badge">Atención Rápida</span>
+            <h2>Asistentes Virtuales para WhatsApp</h2>
           </div>
           <div class="catalog-body">
-            <p>Implementación de agentes conversacionales para canales de mensajería (WhatsApp Cloud API, Web Chat y Telegram). Nuestro enfoque no es solo responder preguntas frecuentes, sino recopilar información estructurada y detonar flujos operativos internos.</p>
+            <p>
+              ¿Cuántas veces un cliente te ha escrito a las 10 de la noche o en domingo pidiendo precios y, cuando le respondes al día siguiente, ya le compró a la competencia? Un asistente virtual atiende de inmediato, comparte tu menú o catálogo con fotos, resuelve dudas frecuentes y toma pedidos o citas mientras tú atiendes el mostrador o descansas.
+            </p>
             <div class="specs-grid">
               <div class="spec-item">
-                <span class="spec-label">Disponibilidad</span>
-                <span class="spec-value">24 horas / 7 días</span>
+                <span class="spec-label">Horario de Atención</span>
+                <span class="spec-value">24 horas, los 365 días del año</span>
               </div>
               <div class="spec-item">
-                <span class="spec-label">Canales Compatibles</span>
-                <span class="spec-value">WhatsApp, Web, Messenger</span>
+                <span class="spec-label">¿Dónde funciona?</span>
+                <span class="spec-value">Directo en tu WhatsApp o página web</span>
               </div>
               <div class="spec-item">
-                <span class="spec-label">Procesamiento</span>
-                <span class="spec-value">IA Generativa & Flujos Guiados</span>
+                <span class="spec-label">¿Es difícil de usar?</span>
+                <span class="spec-value">¡No! Responde como si fuera una persona</span>
               </div>
             </div>
           </div>
           <div class="catalog-footer">
-            <router-link to="/cotizador" class="btn-primary btn-sm">Cotizar Chatbot</router-link>
+            <router-link to="/cotizador" class="btn-primary btn-sm">Quiero un Asistente en mi WhatsApp</router-link>
           </div>
         </div>
 
-        <!-- Service 2: n8n Workflows -->
+        <!-- Service 2: Workflows -->
         <div class="catalog-card card-glass">
           <div class="catalog-header">
-            <span class="catalog-badge">Orquestación</span>
-            <h2>Automatización de Flujos de Trabajo con n8n</h2>
+            <span class="catalog-badge">Ahorro de Tiempo</span>
+            <h2>Conexión Automática entre tus Programas</h2>
           </div>
           <div class="catalog-body">
-            <p>Conexión de tus aplicaciones corporativas para sincronizar datos automáticamente. Cuando un cliente realiza una compra, pide una cotización o envía un formulario, el flujo actualiza tu base de datos, envía notificaciones y crea tareas en tu CRM.</p>
+            <p>
+              Si pasas horas de tu semana copiando números de teléfono de WhatsApp a una libreta o a un Excel, mandando correos de confirmación uno por uno o avisando a tu equipo sobre nuevos pedidos, este servicio es para ti. Hacemos que tus programas se comuniquen entre sí: cuando un cliente escribe o compra, sus datos se guardan solos en tu Excel y se genera su comprobante en segundos.
+            </p>
             <div class="specs-grid">
               <div class="spec-item">
-                <span class="spec-label">Motor Principal</span>
-                <span class="spec-value">n8n Self-Hosted / Cloud</span>
+                <span class="spec-label">Beneficio Principal</span>
+                <span class="spec-value">Ahorras de 2 a 4 horas de oficina al día</span>
               </div>
               <div class="spec-item">
-                <span class="spec-label">Integración</span>
-                <span class="spec-value">Webhooks & REST APIs</span>
+                <span class="spec-label">Programas que conectamos</span>
+                <span class="spec-value">WhatsApp, Excel, Gmail, Outlook, etc.</span>
               </div>
               <div class="spec-item">
-                <span class="spec-label">Bases de Datos</span>
-                <span class="spec-value">MySQL, PostgreSQL, MongoDB</span>
+                <span class="spec-label">Cero Errores</span>
+                <span class="spec-value">La información pasa exacta y sin equivocaciones</span>
               </div>
             </div>
           </div>
           <div class="catalog-footer">
-            <router-link to="/cotizador" class="btn-primary btn-sm">Cotizar Flujo n8n</router-link>
+            <router-link to="/cotizador" class="btn-primary btn-sm">Quiero Automatizar mis Tareas</router-link>
           </div>
         </div>
 
-        <!-- Service 3: APIs & Cloud -->
+        <!-- Service 3: Custom Solutions -->
         <div class="catalog-card card-glass">
           <div class="catalog-header">
-            <span class="catalog-badge">Infraestructura</span>
-            <h2>Integración de APIs y Despliegue en Contenedores</h2>
+            <span class="catalog-badge">A tu Medida</span>
+            <h2>Sistemas y Conexiones Especiales para Empresas</h2>
           </div>
           <div class="catalog-body">
-            <p>Desarrollo de conectores seguros, arquitecturas basadas en microservicios y despliegue en contenedores Docker para garantizar alta disponibilidad y portabilidad en servidores locales o en la nube.</p>
+            <p>
+              Si tienes un negocio más grande, varias sucursales, una tienda en línea o utilizas un sistema de inventarios y cobro propio, diseñamos la solución exacta que necesitas. Nos aseguramos de que todo tu negocio esté conectado de manera segura, rápida y con respaldo continuo de nuestro equipo local.
+            </p>
             <div class="specs-grid">
               <div class="spec-item">
-                <span class="spec-label">Backend</span>
-                <span class="spec-value">PHP 8.2 / Node.js</span>
+                <span class="spec-label">Asesoría</span>
+                <span class="spec-value">Platicamos contigo para entender tu caso</span>
               </div>
               <div class="spec-item">
-                <span class="spec-label">Contenedorización</span>
-                <span class="spec-value">Docker & Docker Compose</span>
+                <span class="spec-label">Instalación</span>
+                <span class="spec-value">Nosotros configuramos y probamos todo</span>
               </div>
               <div class="spec-item">
-                <span class="spec-label">Seguridad</span>
-                <span class="spec-value">Sanitización, JWT & HTTPS</span>
+                <span class="spec-label">Capacitación</span>
+                <span class="spec-value">Te enseñamos a ti y a tu personal a usarlo</span>
               </div>
             </div>
           </div>
           <div class="catalog-footer">
-            <router-link to="/cotizador" class="btn-primary btn-sm">Cotizar Integración</router-link>
+            <router-link to="/cotizador" class="btn-primary btn-sm">Solicitar Asesoría Personalizada</router-link>
           </div>
         </div>
       </div>
@@ -108,7 +114,7 @@
 }
 
 .page-title {
-  font-size: 2.6rem;
+  font-size: 2.5rem;
   font-weight: 800;
   margin: 0.75rem 0;
   letter-spacing: -0.02em;
@@ -116,7 +122,8 @@
 
 .page-subtitle {
   color: #9ca3af;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
 }
 
 .catalog-stack {
@@ -151,7 +158,7 @@
 .catalog-body p {
   color: #9ca3af;
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .specs-grid {
@@ -168,7 +175,7 @@
 .spec-item {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.25rem;
 }
 
 .spec-label {
@@ -182,6 +189,7 @@
   font-size: 0.88rem;
   font-weight: 600;
   color: #e2e8f0;
+  line-height: 1.4;
 }
 
 .catalog-footer {

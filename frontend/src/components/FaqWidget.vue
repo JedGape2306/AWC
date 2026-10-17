@@ -4,20 +4,20 @@
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
       </svg>
-      <span>¿Dudas?</span>
+      <span>¿Tienes dudas?</span>
     </button>
 
     <div v-else class="widget-panel card-glass">
       <div class="widget-header">
         <div class="widget-title">
           <span class="status-indicator"></span>
-          <h4>Asistente Autemia</h4>
+          <h4>Preguntas Frecuentes</h4>
         </div>
         <button @click="isOpen = false" class="close-btn">&times;</button>
       </div>
 
       <div class="widget-body">
-        <p class="intro-text">Selecciona una consulta frecuente para conocer más sobre nuestras soluciones:</p>
+        <p class="intro-text">Resolvemos tus dudas en palabras sencillas:</p>
         <div class="faq-list">
           <div v-for="(faq, i) in faqs" :key="i" class="faq-item">
             <button @click="activeFaq = activeFaq === i ? null : i" class="faq-question">
@@ -33,7 +33,7 @@
 
       <div class="widget-footer">
         <router-link to="/cotizador" @click="isOpen = false" class="btn-primary btn-sm w-full">
-          Ir al Cotizador Guiado
+          Calcular costo de mi proyecto
         </router-link>
       </div>
     </div>
@@ -48,16 +48,20 @@ const activeFaq = ref(null)
 
 const faqs = [
   {
-    q: '¿Qué es n8n y cómo ayuda a mi empresa?',
-    a: 'n8n es un motor de orquestación de flujos de trabajo que conecta tus herramientas existentes (WhatsApp, correo, CRM, hojas de cálculo) para realizar tareas repetitivas de forma automática y sin errores humanos.'
+    q: '¿Necesito saber de computación para usar esto?',
+    a: '¡Para nada! Nosotros configuramos y probamos todo por ti. Te enseñamos en 15 minutos cómo funciona y lo puedes revisar directo desde tu teléfono o computadora tan fácil como enviar un mensaje.'
   },
   {
-    q: '¿Cómo funciona el chatbot de Autemia?',
-    a: 'Integramos chatbots capaces de responder consultas de tus clientes 24/7, recopilar datos de contacto y activar acciones automáticas (como registrar prospectos o agendar citas).'
+    q: '¿Puedo seguir usando mi WhatsApp como siempre?',
+    a: 'Sí, totalmente. Tus clientes te escriben como siempre. El asistente contesta las preguntas repetitivas (precios, horarios, ubicación), pero tú puedes intervenir y escribirles personalmente cuando tú quieras.'
   },
   {
-    q: '¿Cuánto tiempo toma implementar una automatización?',
-    a: 'Proyectos sencillos toman de 3 a 5 días hábiles. Soluciones avanzadas con integraciones multi-sistema se completan en 2 a 3 semanas.'
+    q: '¿Cuánto tiempo tardan en tenerlo listo?',
+    a: 'La mayoría de los asistentes y conexiones entre programas quedan listos entre 3 y 5 días hábiles, listos para recibir clientes.'
+  },
+  {
+    q: '¿Qué pasa si cambian mis precios o productos?',
+    a: 'Te dejamos una hoja muy sencilla en Excel o Google Sheets donde si cambias un precio, tu asistente de WhatsApp se actualiza de inmediato sin que tengas que pagar nada extra.'
   }
 ]
 </script>
@@ -90,7 +94,7 @@ const faqs = [
 }
 
 .widget-panel {
-  width: 360px;
+  width: 380px;
   max-width: calc(100vw - 3rem);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   overflow: hidden;
@@ -129,7 +133,7 @@ const faqs = [
 
 .widget-body {
   padding: 1.25rem;
-  max-height: 380px;
+  max-height: 400px;
   overflow-y: auto;
 }
 
@@ -164,13 +168,14 @@ const faqs = [
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  line-height: 1.4;
 }
 
 .faq-answer {
   padding: 0 0.85rem 0.75rem;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: #94a3b8;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .widget-footer {
