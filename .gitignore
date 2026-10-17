@@ -29,3 +29,8 @@ database/data/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Documentos
+documentacion/
+*.docx
+
