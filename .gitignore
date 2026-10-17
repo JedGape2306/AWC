@@ -1,3 +1,10 @@
+# Variables de entorno y credenciales (NUNCA SUBIR A GIT)
+.env
+.env.*
+.env.local
+.env.*.local
+!.env.example
+
 # Dependencias de Node / Frontend
 frontend/node_modules/
 frontend/dist/
@@ -6,19 +13,13 @@ frontend/.vite/
 # Dependencias de PHP / Composer / Backend
 backend/vendor/
 
-# Archivos de entorno y credenciales
-.env
-*.env
-.env.local
-.env.*.local
-
 # Logs y temporales
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Datos persistentes de base de datos (si se monta en local)
+# Datos persistentes locales de base de datos
 database/data/
 *.sqlite
 
