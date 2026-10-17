@@ -1,0 +1,52 @@
+# compose.yaml - Infraestructura de Desarrollo para Autemia
+services:
+  frontend:
+    build:
+      context: ./frontend
+    container_name: autemia_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - autemia_net
+
+  backend:
+    build:
+      context: ./backend
+    container_name: autemia_backend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./backend:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_NAME: autemia_db
+      DB_USER: root
+      DB_PASS: root_password
+    depends_on:
+      - db
+    networks:
+      - autemia_net
+
+  db:
+    image: mysql:8.0
+    container_name: autemia_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: autemia_db
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/mysql
+    networks:
+      - autemia_net
+
+volumes:
+  db_data:
+
+networks:
+  autemia_net:
+    driver: bridge
