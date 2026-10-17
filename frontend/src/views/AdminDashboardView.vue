@@ -138,7 +138,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button @click="selectedLead = null" class="btn-primary btn-sm">Guardar y Cerrar</button>
+            <button @click="saveLeadStatus" class="btn-primary btn-sm">Guardar y Cerrar</button>
           </div>
         </div>
       </div>
@@ -147,13 +147,14 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 const searchQuery = ref('')
 const filterStatus = ref('TODOS')
 const selectedLead = ref(null)
+const loading = ref(false)
 
-const leads = ref([
+const initialMockLeads = [
   {
     folio: 'AUT-847291',
     name: 'Roberto Gómez',
@@ -177,20 +178,60 @@ const leads = ref([
     price: 4800,
     status: 'En Análisis',
     details: 'Guardar citas de pacientes y enviar recordatorio automático por WhatsApp 24 horas antes.'
-  },
-  {
-    folio: 'AUT-194827',
-    name: 'Fernando Ruiz',
-    company: 'Agencia de Viajes Valles Tour',
-    email: 'fernando@vallestour.mx',
-    phone: '481 554 2211',
-    service: 'Solución completa a la medida',
-    platforms: ['Cobros con Tarjeta', 'WhatsApp', 'Excel'],
-    price: 6500,
-    status: 'Cotizado',
-    details: 'Recibir confirmaciones de pago con tarjeta y enviar pase de abordar por WhatsApp de inmediato.'
   }
-])
+]
+
+const leads = ref([...initialMockLeads])
+
+async function fetchLeads() {
+  loading.value = true
+  let serverLeads = []
+
+  // 1. Intentar cargar desde MySQL mediante la API en PHP
+  try {
+    const res = await fetch('http://localhost:8080/index.php?action=leads')
+    const data = await res.json()
+    if (data.success && Array.isArray(data.leads)) {
+      serverLeads = data.leads
+    }
+  } catch (err) {
+    console.warn('API Docker no disponible, usando respaldo local:', err)
+  }
+
+  // 2. Cargar cotizaciones guardadas en localStorage
+  let localLeads = []
+  try {
+    localLeads = JSON.parse(localStorage.getItem('autemia_local_leads') || '[]')
+  } catch (e) {
+    console.warn('Error leyendo localStorage:', e)
+  }
+
+  // 3. Combinar sin duplicar folios (priorizando servidor MySQL)
+  const combined = [...serverLeads]
+  const existingFolios = new Set(serverLeads.map(l => l.folio))
+
+  localLeads.forEach(l => {
+    if (!existingFolios.has(l.folio)) {
+      combined.push(l)
+      existingFolios.add(l.folio)
+    }
+  })
+
+  // Agregar ejemplos si está vacío
+  initialMockLeads.forEach(mock => {
+    if (!existingFolios.has(mock.folio)) {
+      combined.push(mock)
+      existingFolios.add(mock.folio)
+    }
+  })
+
+  leads.value = combined
+  loading.value = false
+}
+
+onMounted(() => {
+  fetchLeads()
+})
 
 const pendingCount = computed(() => leads.value.filter(l => l.status === 'Pendiente').length)
 const analyzingCount = computed(() => leads.value.filter(l => l.status === 'En Análisis').length)
@@ -199,9 +240,9 @@ const quotedCount = computed(() => leads.value.filter(l => l.status === 'Cotizad
 const filteredLeads = computed(() => {
   return leads.value.filter(lead => {
     const matchesSearch = 
-      lead.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      lead.company.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      lead.folio.toLowerCase().includes(searchQuery.value.toLowerCase())
+      (lead.name || '').toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      (lead.company || '').toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      (lead.folio || '').toLowerCase().includes(searchQuery.value.toLowerCase())
     const matchesFilter = filterStatus.value === 'TODOS' || lead.status === filterStatus.value
     return matchesSearch && matchesFilter
   })
@@ -218,8 +259,39 @@ function openModal(lead) {
   selectedLead.value = lead
 }
 
+async function saveLeadStatus() {
+  if (!selectedLead.value) return
+
+  // Actualizar en backend MySQL
+  try {
+    await fetch('http://localhost:8080/index.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'update_status',
+        folio: selectedLead.value.folio,
+        status: selectedLead.value.status
+      })
+    })
+  } catch (e) {
+    console.warn('Error sincronizando estado con API:', e)
+  }
+
+  // Actualizar en localStorage
+  try {
+    const local = JSON.parse(localStorage.getItem('autemia_local_leads') || '[]')
+    const item = local.find(l => l.folio === selectedLead.value.folio)
+    if (item) {
+      item.status = selectedLead.value.status
+      localStorage.setItem('autemia_local_leads', JSON.stringify(local))
+    }
+  } catch (e) {}
+
+  selectedLead.value = null
+}
+
 function refreshLeads() {
-  alert('Lista de solicitudes actualizada con éxito.')
+  fetchLeads()
 }
 </script>
 

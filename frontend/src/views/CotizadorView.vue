@@ -278,18 +278,43 @@ async function submitQuote() {
   const folio = 'AUT-' + Math.floor(100000 + Math.random() * 900000)
   generatedFolio.value = folio
 
+  const payload = {
+    folio,
+    name: form.value.name,
+    company: form.value.company,
+    email: form.value.email,
+    phone: form.value.phone,
+    service: selectedServiceName.value,
+    platforms: form.value.platforms,
+    volume: form.value.volume,
+    presupuesto_estimado: calculatedPrice.value,
+    details: form.value.details
+  }
+
+  // 1. Guardar copia en localStorage para sincronización inmediata en el navegador
   try {
-    await fetch('http://localhost:8080/index.php', {
+    const existing = JSON.parse(localStorage.getItem('autemia_local_leads') || '[]')
+    existing.unshift({
+      ...payload,
+      price: calculatedPrice.value,
+      status: 'Pendiente'
+    })
+    localStorage.setItem('autemia_local_leads', JSON.stringify(existing))
+  } catch (e) {
+    console.warn('Error guardando en localStorage:', e)
+  }
+
+  // 2. Enviar a la API REST de PHP en Docker (puerto 8080)
+  try {
+    const res = await fetch('http://localhost:8080/index.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        folio,
-        ...form.value,
-        presupuesto_estimado: calculatedPrice.value
-      })
+      body: JSON.stringify(payload)
     })
+    const resData = await res.json()
+    console.log('Respuesta del servidor PHP MySQL:', resData)
   } catch (err) {
-    console.log('Guardado localmente:', err)
+    console.warn('API Docker no alcanzable en este momento, usando respaldo local:', err)
   }
 
   setTimeout(() => {
